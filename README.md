@@ -43,7 +43,7 @@ Sample Usage
         }
 
         function getPhotoSets() {
-            flickr.getPhotoSets(apiKey, userId)
+            ng-flickr.getPhotoSets(apiKey, userId)
                 .then(function(data) {
                     vm.photoSets = data;
                 return data;
