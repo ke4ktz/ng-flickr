@@ -21,59 +21,25 @@ Sample Usage
 ------------
 
 ```JavaScript
-(function() {
-    'use strict';
+var apiKey = '<REPLACE_WITH_YOUR_API_KEY>';
+var userId = '<YOUR_USER_ID>';
 
-    angular.module('app').controller('photos', ['ng-flickr', photos]);
+vm.photoSets = [];
 
-    function photos(ng-flickr) {
-        var apiKey = '<REPLACE_WITH_YOUR_API_KEY>';
-        var userId = '<YOUR_USER_ID>';
-
-        var vm = this;
-        vm.photoSets = [];
-        vm.title = 'Photos';
-
-        activate();
-
-        function activate() {
-            common.activateController([getPhotoSets()], controllerId)
-                .then(function() {
-                });
-        }
-
-        function getPhotoSets() {
-            ng-flickr.getPhotoSets(apiKey, userId)
-                .then(function(data) {
-                    vm.photoSets = data;
-                return data;
-            });
-        }
-    }
-})();
+function getPhotoSets() {
+    ng-flickr.getPhotoSets(apiKey, userId)
+        .then(function(data) {
+            vm.photoSets = data;
+        return data;
+    });
+}
 
 ```
 
 ```HTML
-<section id="photo-view" class="mainbar" data-ng-controller="photos as vm">
-    <section class="matter">
-        <div class="container">
-            <div class="row-fluid">
-                <div class="widget wblue">
-                    <div data-cc-widget-header title="{{vm.title}}"></div>
-                    <div class="widget-content user">
-                        <div class="padd list-flow fader-animation" data-ng-repeat="p in vm.photoSets">
-                            <img ng-src="{{p.primary_photo_extras.url_s}}"></img>
-                            <h4>{{p.title._content}}</h4>
-                        </div>
-                    </div>
-                    <div class="widget-foot">
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-</section>
+<div class="padd list-flow fader-animation" data-ng-repeat="p in vm.photoSets">
+    <img ng-src="{{p.primary_photo_extras.url_s}}"></img>
+    <h4>{{p.title._content}}</h4>
+</div>
 
 ```
