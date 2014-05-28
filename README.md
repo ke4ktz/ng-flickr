@@ -66,7 +66,7 @@ angular.module('app').controller('photo', ['ng-flickr', function(flickr) {
 
     flickr.init(apiKey, userId);
 
-    ng-flickr.getPhotoSets('url_s')
+    flickr.getPhotoSets('url_s')
         .then(function(data) {
             vm.photoSets = data;
     });
