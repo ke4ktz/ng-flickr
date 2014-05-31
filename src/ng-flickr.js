@@ -5,8 +5,10 @@
 
     function flickr($q, $http) {
         var urlBase = 'https://api.flickr.com/services/rest/';
-        var apiKey = '';
-        var userId = '';
+        var configParms ={
+        	format: 'json',
+        	jsoncallback: 'JSON_CALLBACK'
+        };
 
         return {
             init: init,
@@ -14,25 +16,20 @@
             getPhotos: getPhotos
         };
 
-        function init(api, user) {
-            apiKey = api;
-            userId = user;
+        function init(api_key, user_id) {
+            configParms.api_key = api_key;
+            configParms.user_id = user_id;
         }
 
         function getPhotoSets(extras) {
             var deferred = $q.defer();
 
-            var configParam = {
-                'method': 'flickr.photosets.getList',
-                'api_key': apiKey,
-                'user_id': userId,
-                'format': 'json',
-                'jsoncallback': 'JSON_CALLBACK',
-                'primary_photo_extras': extras
-            };
+            var parms = configParms;
+            parms.method = 'flickr.photosets.getList';
+            parms.primary_photo_extras = extras;
 
             $http.jsonp(urlBase, {
-                params: configParam
+                params: parms
             }).success(function(data, status, headers, config) {
                 deferred.resolve(data.photosets.photoset);
             }).error(function(data, status, headers, config) {
@@ -45,18 +42,13 @@
         function getPhotos(extras) {
             var deferred = $q.defer();
 
-            var configParam = {
-                'method': 'flickr.photosets.getPhotos',
-                'api_key': apiKey,
-                'photoset_id': setId,
-                'format': 'json',
-                'jsoncallback': 'JSON_CALLBACK',
-                'extras': extras,
-                'privacy_filter': '1'
-            };
+            var parms = configParms;
+            parms.method = 'flickr.photosets.getPhotos';
+            parms.extras = extras;
+            parms.privacy_filter = '1';
 
             $http.jsonp(urlBase, {
-                params: configParam
+                params: parms
             }).success(function(data, status, headers, config) {
                 deferred.resolve(data.photoset.photo);
             }).error(function(data, status, headers, config) {
