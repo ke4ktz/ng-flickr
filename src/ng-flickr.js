@@ -28,13 +28,13 @@
             parms.method = 'flickr.photosets.getList';
             parms.primary_photo_extras = extras;
 
-            $http.jsonp(urlBase, {
-                params: parms
-            }).success(function(data, status, headers, config) {
-                deferred.resolve(data.photosets.photoset);
-            }).error(function(data, status, headers, config) {
-                deferred.reject(status);
-            });
+            $http.jsonp(urlBase, { params: parms })
+                .success(function(data, status, headers, config) {
+                    deferred.resolve(data.photosets.photoset);
+                })
+                .error(function(data, status, headers, config, statusText) {
+                    deferred.reject(statusText);
+                });
 
             return deferred.promise;
         }
@@ -47,13 +47,13 @@
             parms.extras = extras;
             parms.privacy_filter = '1';
 
-            $http.jsonp(urlBase, {
-                params: parms
-            }).success(function(data, status, headers, config) {
-                deferred.resolve(data.photoset.photo);
-            }).error(function(data, status, headers, config) {
-                deferred.reject(status);
-            });
+            $http.jsonp(urlBase, { params: parms })
+                .success(function(data, status, headers, config) {
+                    deferred.resolve(data.photoset.photo);
+                })
+                .error(function(data, status, headers, config, statusText) {
+                    deferred.reject(statusText);
+                });
 
             return deferred.promise;
         }
